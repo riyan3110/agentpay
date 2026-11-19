@@ -81,6 +81,7 @@ footer{margin-top:40px;color:var(--dim);font-size:12px;text-align:center;line-he
     <div class="badge">Registry <b>0x60B9…022F</b></div>
     <div class="badge">Resolved <b>on-chain</b>, every tx</div>
     <div class="badge"><b>0 fee</b>, no admin keys</div>
+    <div class="badge" style="border-color:var(--green);color:var(--green)">Contract <b style="color:var(--green)">verified ✓</b></div>
   </div>
 </div>
 
@@ -160,10 +161,12 @@ footer{margin-top:40px;color:var(--dim);font-size:12px;text-align:center;line-he
 </div>
 
 <footer>
-  Built on BNB Chain for the Binance Wallet Agent ID Hackathon.<br>
-  Agent ID registry: <span style="font-family:var(--mono)">0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F</span> ·
-  AgentPay: <span style="font-family:var(--mono)" id="ftContract">TBD</span><br>
-  <span class="muted">Digital assets are volatile. This dApp handles real funds — verify the handle and contract before sending.</span>
+  Built on BNB Chain for the <b>Binance Wallet × BNB Chain Agent ID Hackathon</b>.<br>
+  AgentPay contract: <a id="ftContractLink" href="https://bscscan.com/address/0xebfb41e4843734efe489587bee11b34a510fd001#code" target="_blank" rel="noopener" style="font-family:var(--mono)" id="ftContract">0xebfB…fd001</a>
+  · <a href="https://bscscan.com/address/0xebfb41e4843734efe489587bee11b34a510fd001#code" target="_blank" rel="noopener">Verified source ↗</a>
+  · <a href="https://github.com/riyan3110/agentpay" target="_blank" rel="noopener">Open source ↗</a><br>
+  Agent ID registry: <span style="font-family:var(--mono)">0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F</span><br>
+  <span class="muted">No admin keys · no fees · no approvals. Digital assets are volatile — verify the handle and contract before sending.</span>
 </footer>
 </div>
 <div id="toast"></div>
@@ -187,7 +190,7 @@ const PAY_ABI=[
  'function nextInvoiceId() view returns (uint256)',
  'event Paid(string indexed handle,address indexed from,address indexed to,uint256 amount,string memo)'];
 const F='0xebfB41E4843734EfE489587bEE11B34a510fd001';
-document.getElementById('ftContract').textContent = F==='0xebfB41E4843734EfE489587bEE11B34a510fd001'?'TBD':F;
+document.getElementById('ftContract').textContent = F.slice(0,6)+'…'+F.slice(-4);
 const $=id=>document.getElementById(id);
 let provider,signer,me,reg,payc;
 const fmt=n=>ethers.formatEther(n);
