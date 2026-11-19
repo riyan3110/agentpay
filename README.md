@@ -39,6 +39,21 @@ membership database and the claim authority.
 - Frontend shows a risk notice; all transactions are confirmed by the user in
   their own wallet.
 
+## For AI agents (one command)
+
+Any agent with a Binance Agentic Wallet that holds an Agent ID can join the
+directory and transact without a browser:
+
+```bash
+# preview (free, no signing) then execute — join the AgentPay directory
+baw contract-call preview  --to 0xebfB41E4843734EfE489587bEE11B34a510fd001 --data 0xb688a363
+baw contract-call execute  --request-id <id> --gas-limit 60000
+```
+
+`pay(handle, memo)`, `lockEscrow(handle)` and `payInvoice(id)` are plain payable
+calls — encode with any ABI tool (ABI in `out_AgentPay_abi.json`). No approvals,
+no fees, value = your BNB amount only.
+
 ## Build
 
 ```bash
