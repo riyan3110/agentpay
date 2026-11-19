@@ -34,18 +34,6 @@ button{cursor:pointer;border:0;border-radius:10px;font:inherit;font-weight:600}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:14px}
 .card-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:4px}
 .card-head h2{font-size:16px;font-weight:700}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;background:var(--bg);border:1px solid var(--line);border-radius:11px;padding:4px;margin-top:10px}
-.tab{background:none;color:var(--dim);padding:9px 4px;border-radius:8px;font-weight:600;font-size:13px;text-align:center;white-space:nowrap}
-.tab.on{background:var(--panel2);color:var(--gold)}
-label{display:block;font-size:11px;color:var(--dim);margin:12px 0 5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase}
-input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:11px 13px;font:inherit;font-size:14px}
-input:focus{outline:0;border-color:var(--gold)}
-.handle-in{position:relative}
-.handle-in input{padding-right:38px}
-.handle-in:after{content:'.ai';position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--gold);font-weight:700;font-family:var(--mono);font-size:14px}
-.resolve-box{margin-top:8px;border:1px dashed var(--line);border-radius:8px;padding:7px 11px;font-size:12px;color:var(--dim);display:none;font-family:var(--mono);word-break:break-all}
-.resolve-box.ok{border-color:var(--green);color:var(--green)}
-.resolve-box.err{border-color:var(--red);color:var(--red)}
 pre{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;font-family:var(--mono);font-size:11px;line-height:1.55;overflow-x:auto;white-space:pre-wrap;overflow-wrap:break-word;word-break:normal;color:var(--text);margin-top:6px}
 .row{display:flex;gap:10px;margin-top:12px}
 .row .btn{flex:1;padding:11px;font-size:14px}
@@ -53,7 +41,6 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding
 .stat div{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
 .stat .k{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
 .stat .v{font-weight:700;font-size:18px;margin-top:2px}
-.stat .v small{color:var(--dim);font-weight:400;font-size:12px}
 .muted{color:var(--dim)}
 .notice{font-size:12px;color:var(--dim);margin-top:10px;line-height:1.45}
 .tag{display:inline-block;font-size:11px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--dim);font-family:var(--mono)}
@@ -70,46 +57,12 @@ footer{margin-top:28px;color:var(--dim);font-size:12px;text-align:center;line-he
 
 <div class="hero">
   <h1>Pay any agent by its <span>handle</span></h1>
-  <p>Direct payments, escrow &amp; invoices via on-chain Agent ID handles. No wallet connect on this site — built for Binance Agentic Wallets.</p>
+  <p>Direct payments, escrow & invoices via on-chain Agent ID handles. No wallet connect on this site — built for Binance Agentic Wallets.</p>
   <div class="badges">
     <div class="badge">Registry <b>0x60B9…022F</b></div>
     <div class="badge"><b>0 fee</b> · no admin keys</div>
     <div class="badge" style="border-color:var(--green);color:var(--green)">Contract <b style="color:var(--green)">verified ✓</b></div>
   </div>
-</div>
-
-<div class="card">
-  <div class="card-head">
-    <h2>Command builder</h2>
-    <span class="tag">no connect needed</span>
-  </div>
-  <div class="tabs">
-    <button class="tab on" data-act="join">Join</button>
-    <button class="tab" data-act="pay">Pay</button>
-    <button class="tab" data-act="escrow">Escrow</button>
-    <button class="tab" data-act="invoice">Invoice</button>
-  </div>
-  <div id="fldFrom">
-    <label>Your agent wallet (from)</label>
-    <input id="bFrom" placeholder="0x… (from baw wallet status)" maxlength="42" autocapitalize="off" spellcheck="false">
-  </div>
-  <div id="fldHandle" style="display:none">
-    <label>To handle</label>
-    <div class="handle-in"><input id="bHandle" placeholder="alice" maxlength="32" autocapitalize="off" spellcheck="false"></div>
-    <div class="resolve-box" id="hResolve"></div>
-  </div>
-  <div id="fldAmount" style="display:none">
-    <label>Amount (BNB)</label>
-    <input id="bAmount" placeholder="0.001" inputmode="decimal">
-  </div>
-  <div id="fldMemo" style="display:none">
-    <label>Memo (optional)</label>
-    <input id="bMemo" placeholder="task id, thank-you…" maxlength="64">
-  </div>
-  <label>BAW CLI command</label>
-  <pre id="cmdOut">Loading…</pre>
-  <div class="row"><button class="btn" id="copyCmd">Copy command</button></div>
-  <p class="notice" id="cmdNote"></p>
 </div>
 
 <div class="card">
@@ -127,7 +80,7 @@ footer{margin-top:28px;color:var(--dim);font-size:12px;text-align:center;line-he
 <div class="card" id="agent-prompt">
   <div class="card-head">
     <h2>Prompt for AI agent</h2>
-    <span class="tag">copy &amp; paste</span>
+    <span class="tag">copy & paste</span>
   </div>
   <pre id="promptText">Use AgentPay on BNB Chain (chainId 56) via your baw CLI.
 Contract: 0xebfB41E4843734EfE489587bEE11B34a510fd001
@@ -136,7 +89,9 @@ Contract: 0xebfB41E4843734EfE489587bEE11B34a510fd001
    baw contract-call preview --binanceChainId 56 --from &lt;WALLET&gt; --to 0xebfB41E4843734EfE489587bEE11B34a510fd001 --value 0 --inputData 0xb688a363 --json
 3. Check simulationCode=="000000000", allowanceChanges==[], authorityChanges==[], no RISK, then:
    baw contract-call execute --requestId &lt;REQUEST_ID&gt; --json
-ABI (pay/escrow/invoice): github.com/riyan3110/agentpay</pre>
+4. Other actions (encode calldata, value = amount in wei):
+   pay(handle,memo) 0xf46e588c · lockEscrow(handle) 0xb6553bda · createInvoice(wei,memo) 0x2d1aa118
+ABI: github.com/riyan3110/agentpay</pre>
   <div class="row"><button class="btn" id="copyPrompt">Copy prompt</button></div>
 </div>
 
@@ -152,7 +107,6 @@ ABI (pay/escrow/invoice): github.com/riyan3110/agentpay</pre>
 
 <script>
 const AGENTPAY='0xebfB41E4843734EfE489587bEE11B34a510fd001';
-const REGISTRY='0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F';
 const RPCS=[
   'https://bsc-dataseed1.defibit.io',
   'https://bsc-dataseed.binance.org',
@@ -164,102 +118,15 @@ const _fc=$('ftContract'); if(_fc) _fc.textContent=AGENTPAY.slice(0,6)+'…'+AGE
 const toast=(m,ms=2400)=>{const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',ms)};
 
 const IFACE=new ethers.Interface([
-  'function join()',
-  'function pay(string handle,string memo) payable',
-  'function lockEscrow(string handle) payable',
-  'function createInvoice(uint256 amount,string memo) returns (uint256)',
   'function holderCount() view returns (uint256)',
   'function nextInvoiceId() view returns (uint256)'
 ]);
-const REG_ABI=['function ownerOfHandle(string) view returns (address)'];
-const SEL={join:IFACE.getFunction('join').selector};
-
-let rpcCache=null;
-async function getRpc(){
-  if(rpcCache) return rpcCache;
-  for(const url of RPCS){
-    try{
-      const p=new ethers.JsonRpcProvider(url,56,{staticNetwork:true});
-      await Promise.race([p.getBlockNumber(),new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),3500))]);
-      rpcCache=p; return p;
-    }catch(_){}
-  }
-  return new ethers.JsonRpcProvider(RPCS[0],56,{staticNetwork:true});
-}
-
-let act='join';
-const flds={join:[],pay:['fldHandle','fldAmount','fldMemo'],escrow:['fldHandle','fldAmount'],invoice:['fldAmount','fldMemo']};
-function buildCmd(){
-  const from=($('bFrom').value||'').trim()||'<WALLET>';
-  const h=($('bHandle').value||'').trim().toLowerCase().replace(/\.ai$/,'');
-  const amt=($('bAmount').value||'').trim();
-  const memo=($('bMemo').value||'').trim();
-  let data='0x',value='0',note='';
-  try{
-    if(act==='join'){
-      data=SEL.join;
-      note='Free to join (gas only, 0 approvals). Registers your Agent ID in the directory.';
-    }else if(act==='pay'){
-      if(!h){$('cmdOut').textContent='Enter a handle above (e.g. alice)';$('cmdNote').textContent='';return;}
-      const wei=ethers.parseEther(amt||'0');
-      data=IFACE.encodeFunctionData('pay',[h,memo]);value=wei.toString();
-      note='Sends '+(amt||'0')+' BNB to owner of '+h+'.ai (resolved on-chain).';
-    }else if(act==='escrow'){
-      if(!h){$('cmdOut').textContent='Enter a handle above (e.g. alice)';$('cmdNote').textContent='';return;}
-      const wei=ethers.parseEther(amt||'0');
-      data=IFACE.encodeFunctionData('lockEscrow',[h]);value=wei.toString();
-      note='Locks '+(amt||'0')+' BNB, claimable only by owner of '+h+'.ai.';
-    }else if(act==='invoice'){
-      const wei=ethers.parseEther(amt||'0');
-      data=IFACE.encodeFunctionData('createInvoice',[wei,memo]);value='0';
-      note='Creates an invoice for '+(amt||'0')+' BNB from your handle.';
-    }
-    $('cmdOut').textContent=
-      'baw contract-call preview --binanceChainId 56 \\\n'+
-      '  --from '+from+' \\\n'+
-      '  --to '+AGENTPAY+' \\\n'+
-      '  --value '+value+' \\\n'+
-      '  --inputData '+data+' --json\n\n'+
-      'baw contract-call execute --requestId <REQUEST_ID> --json';
-    $('cmdNote').textContent=note;
-  }catch(e){$('cmdOut').textContent='Invalid amount: '+e.message;$('cmdNote').textContent='';}
-}
-
-let resolveSeq=0;
-async function checkHandle(){
-  const box=$('hResolve');
-  const h=($('bHandle').value||'').trim().toLowerCase().replace(/\.ai$/,'');
-  if(!h||!['pay','escrow'].includes(act)){box.style.display='none';return;}
-  const seq=++resolveSeq;
-  box.style.display='block';box.className='resolve-box';box.textContent='resolving '+h+'.ai…';
-  try{
-    const rpc=await getRpc();
-    const reg=new ethers.Contract(REGISTRY,REG_ABI,rpc);
-    const owner=await reg.ownerOfHandle(h);
-    if(seq!==resolveSeq) return;
-    if(owner===ethers.ZeroAddress){box.className='resolve-box err';box.textContent='✗ '+h+'.ai not registered';}
-    else{box.className='resolve-box ok';box.textContent='✓ '+h+'.ai → '+owner.slice(0,8)+'…'+owner.slice(-6);}
-  }catch(_){if(seq===resolveSeq) box.style.display='none';}
-}
-
-function setAct(a){
-  act=a;
-  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.act===a));
-  ['fldHandle','fldAmount','fldMemo'].forEach(f=>$(f).style.display=flds[a].includes(f)?'block':'none');
-  buildCmd();
-  checkHandle();
-}
-document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setAct(b.dataset.act));
-['bFrom','bAmount','bMemo'].forEach(id=>$(id).addEventListener('input',buildCmd));
-let hTimer;
-$('bHandle').addEventListener('input',()=>{buildCmd();clearTimeout(hTimer);hTimer=setTimeout(checkHandle,350);});
 
 async function copyText(txt){
   try{await navigator.clipboard.writeText(txt);toast('✓ Copied');}
   catch(_){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('✓ Copied');}catch(__){toast('Select & copy manually');}ta.remove();}
 }
 $('copyPrompt').onclick=()=>copyText($('promptText').textContent);
-$('copyCmd').onclick=()=>copyText($('cmdOut').textContent);
 
 async function loadBoard(){
   for(const url of RPCS){
@@ -272,12 +139,10 @@ async function loadBoard(){
       ]);
       $('dirCount').textContent=hc.toString();
       $('invCount').textContent=(ni>0n?(ni-1n):0n).toString();
-      rpcCache=rpc;
       return;
     }catch(_){}
   }
 }
-setAct('join');
 loadBoard();
 </script>
 </body>
