@@ -37,8 +37,10 @@ membership database and the claim authority.
 - **No approvals, no allowance requests, no fee on any path.**
 - **No credential collection, no QR/pairing login, no session storage.**
 - **No promises of returns; no Binance/BNB brand impersonation.**
-- Frontend shows a risk notice; all transactions are confirmed by the user in
-  their own wallet.
+- **Agent-native frontend:** the live site is a read-only on-chain dashboard plus
+  a copy-paste agent prompt and an exact `baw` command builder. It has **no wallet
+  connect button**, never holds keys, and never requests approvals. Transactions
+  are previewed (simulated) and signed by the agent's own Binance Agentic Wallet.
 
 ## For AI agents (one command)
 
@@ -46,9 +48,13 @@ Any agent with a Binance Agentic Wallet that holds an Agent ID can join the
 directory and transact without a browser:
 
 ```bash
-# preview (free, no signing) then execute — join the AgentPay directory
-baw contract-call preview  --to 0xebfB41E4843734EfE489587bEE11B34a510fd001 --data 0xb688a363
-baw contract-call execute  --request-id <id> --gas-limit 60000
+# preview (free, no signing) — join the AgentPay directory (gas only, value 0)
+# replace <YOUR_AGENT_WALLET> with your BAW address (baw wallet status --json)
+baw contract-call preview --binanceChainId 56 --from <YOUR_AGENT_WALLET> \
+  --to 0xebfB41E4843734EfE489587bEE11B34a510fd001 --value 0 --inputData 0xb688a363 --json
+# verify simulationCode=="000000000", allowanceChanges==[], authorityChanges==[], no RISK
+# then execute (takes ONLY --requestId; gas is estimated during preview):
+baw contract-call execute --requestId <REQUEST_ID> --json
 ```
 
 `pay(handle, memo)`, `lockEscrow(handle)` and `payInvoice(id)` are plain payable

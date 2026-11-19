@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AgentPay — Pay any Agent by handle</title>
-<meta name="description" content="Send, escrow and invoice BNB on BNB Chain using Agent ID handles. No addresses, no sign-up — your Agent ID is your account.">
+<meta name="description" content="Send, escrow and invoice BNB on BNB Chain using Agent ID handles. Built for AI agents with Binance Agentic Wallet — no wallet connect, no sign-up. Your Agent ID is your account.">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
 <style>
@@ -24,28 +24,22 @@ button{cursor:pointer;border:0;border-radius:10px;font:inherit;font-weight:600}
 .btn{background:var(--gold);color:#111;padding:10px 18px}
 .btn:hover{background:var(--gold2)}
 .btn.ghost{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
-.btn:disabled{opacity:.45;cursor:not-allowed}
 .hero{padding:34px 0 10px;text-align:center}
 .hero h1{font-size:clamp(26px,6vw,40px);font-weight:800;line-height:1.15}
 .hero h1 span{color:var(--gold)}
-.hero p{color:var(--dim);max-width:520px;margin:12px auto 0}
+.hero p{color:var(--dim);max-width:540px;margin:12px auto 0}
 .badges{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
 .badge{font-size:12px;color:var(--dim);border:1px solid var(--line);border-radius:99px;padding:4px 12px;background:var(--panel)}
 .badge b{color:var(--text)}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:16px}
-.tabs{display:flex;gap:6px;margin-top:22px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:5px}
-.tab{flex:1;background:none;color:var(--dim);padding:9px 4px;border-radius:8px;font-weight:600;font-size:14px}
-.tab.on{background:var(--panel2);color:var(--gold)}
+.card h2{font-size:17px;margin-bottom:6px}
+.card h2 .tag{vertical-align:middle;margin-left:8px}
 label{display:block;font-size:12px;color:var(--dim);margin:14px 0 6px;font-weight:600;letter-spacing:.3px;text-transform:uppercase}
-input,textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:12px 14px;font:inherit}
-input:focus,textarea:focus{outline:0;border-color:var(--gold)}
-.handle-in{position:relative}
-.handle-in:after{content:'.ai';position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--gold);font-weight:700;font-family:var(--mono)}
-.row{display:flex;gap:10px;margin-top:16px}
-.row .btn{flex:1;padding:13px}
-.resolve-box{margin-top:10px;border:1px dashed var(--line);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--dim);display:none;font-family:var(--mono);word-break:break-all}
-.resolve-box.ok{border-color:var(--green);color:var(--green)}
-.resolve-box.err{border-color:var(--red);color:var(--red)}
+input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;color:var(--text);padding:12px 14px;font:inherit}
+input:focus{outline:0;border-color:var(--gold)}
+.row{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.row .btn{flex:1;padding:12px;min-width:140px}
+pre{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px;font-family:var(--mono);font-size:12.5px;line-height:1.6;overflow-x:auto;white-space:pre-wrap;word-break:break-word;color:var(--text);margin-top:8px}
 .stat{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
 .stat div{flex:1;min-width:140px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
 .stat .k{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px}
@@ -58,10 +52,11 @@ td .h{font-family:inherit;font-weight:700;color:var(--gold)}
 .muted{color:var(--dim)}
 .notice{font-size:12px;color:var(--dim);margin-top:14px;line-height:1.5}
 .tag{display:inline-block;font-size:11px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--dim);font-family:var(--mono)}
-.me{display:flex;align-items:center;gap:10px;margin-top:12px;font-size:14px}
-.dot{width:8px;height:8px;border-radius:99px;background:var(--red)}
-.dot.on{background:var(--green)}
-#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 18px;font-size:13px;display:none;z-index:9;max-width:90vw}
+.steps{margin:10px 0 0 18px;color:var(--dim);font-size:13.5px}
+.steps li{margin:6px 0}
+.steps b{color:var(--text)}
+.act.on{border-color:var(--gold)!important;color:var(--gold)!important}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--panel2);border:1px solid var(--green);border-radius:10px;padding:10px 18px;font-size:13px;display:none;z-index:9;max-width:90vw}
 footer{margin-top:40px;color:var(--dim);font-size:12px;text-align:center;line-height:1.7}
 </style>
 </head>
@@ -69,7 +64,7 @@ footer{margin-top:40px;color:var(--dim);font-size:12px;text-align:center;line-he
 <div class="wrap">
 <header>
   <div class="logo">Agent<b>Pay</b> <span class="tag">BNB Chain</span></div>
-  <button class="btn" id="connectBtn">Connect Wallet</button>
+  <a class="btn ghost" href="#agent-prompt" style="padding:8px 14px;font-size:13px">Agent prompt ↓</a>
 </header>
 
 <div class="hero">
@@ -77,6 +72,7 @@ footer{margin-top:40px;color:var(--dim);font-size:12px;text-align:center;line-he
   <p>Direct payments, escrow and invoices for Binance Agentic Wallets on BNB Chain.
      No address book. No sign-up. Your Agent ID <i>is</i> your account — identity is resolved
      on-chain from the official SPACE ID Agent ID registry in every transaction.</p>
+  <p style="margin-top:10px;font-size:13px"><b style="color:var(--green)">No wallet connect on this page.</b> <span class="muted">AgentPay is agent-native: your AI agent signs via Binance Agentic Wallet (BAW). Copy the prompt below into your agent — nothing to connect, nothing to approve on this site.</span></p>
   <div class="badges">
     <div class="badge">Registry <b>0x60B9…022F</b></div>
     <div class="badge">Resolved <b>on-chain</b>, every tx</div>
@@ -85,79 +81,84 @@ footer{margin-top:40px;color:var(--dim);font-size:12px;text-align:center;line-he
   </div>
 </div>
 
-<div class="me" id="meRow" style="display:none">
-  <span class="dot on"></span><span id="meTxt"></span>
+<div class="card" id="agent-prompt">
+  <h2>🤖 Run AgentPay with your agent <span class="tag">copy → paste</span></h2>
+  <p class="notice" style="margin-top:2px">Paste this prompt into any AI agent that has a <b style="color:var(--text)">Binance Agentic Wallet</b> (BAW CLI) on BNB Chain. It registers your Agent ID in the directory, then can pay / escrow / invoice any <span style="font-family:var(--mono)">.ai</span> handle. Free to join — gas only, zero token approvals.</p>
+  <pre id="promptText">You have a Binance Agentic Wallet (baw CLI) on BNB Chain (chainId 56). Use AgentPay — payments resolved by Agent ID handle, no admin keys, no fees, no token approvals.
+
+Contract: 0xebfB41E4843734EfE489587bEE11B34a510fd001
+Agent ID registry (official): 0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F
+Your wallet address: run `baw wallet status --json`; substitute it for &lt;YOUR_AGENT_WALLET&gt; below.
+
+1) Join the directory (free, gas only):
+   baw contract-call preview --binanceChainId 56 --from &lt;YOUR_AGENT_WALLET&gt; --to 0xebfB41E4843734EfE489587bEE11B34a510fd001 --value 0 --inputData 0xb688a363 --json
+   Verify simulationCode == "000000000", allowanceChanges == [], authorityChanges == [], no RISK entries. Then:
+   baw contract-call execute --requestId &lt;REQUEST_ID&gt; --json
+   Wait for receipt status 0x1. (execute takes ONLY --requestId; gas is estimated during preview.)
+
+2) Pay a handle (e.g. alice.ai). calldata = pay(string handle,string memo), selector 0xf46e588c, value = amount in wei:
+   baw contract-call preview --binanceChainId 56 --from &lt;YOUR_AGENT_WALLET&gt; --to 0xebfB41E4843734EfE489587bEE11B34a510fd001 --value &lt;WEI&gt; --inputData &lt;CALLDATA&gt; --json
+   Same safety check, then execute with the requestId.
+
+3) Escrow to a handle: lockEscrow(string), selector 0xb6553bda, value = amount wei.
+4) Create invoice: createInvoice(uint256 amount,string memo), selector 0x2d1aa118, value 0.
+5) Pay invoice: payInvoice(uint256 id,string memo), selector 0x70dd410a, value = invoice amount wei.
+
+Always lowercase handles. Resolve via registry ownerOfHandle(handle) before sending. Encode calldata from the ABI: https://github.com/riyan3110/agentpay (out_AgentPay_abi.json). Or use the live command builder on this page for exact ready-to-run commands.</pre>
+  <div class="row"><button class="btn" id="copyPrompt">Copy agent prompt</button></div>
 </div>
 
-<div class="tabs">
-  <button class="tab on" data-tab="pay">Pay</button>
-  <button class="tab" data-tab="escrow">Escrow</button>
-  <button class="tab" data-tab="invoice">Invoices</button>
-  <button class="tab" data-tab="board">Directory</button>
-</div>
-
-<div id="tab-pay" class="tabc">
-  <div class="card">
+<div class="card">
+  <h2>⚡ Exact command builder <span class="tag">no wallet needed</span></h2>
+  <p class="notice" style="margin-top:2">Type a handle and amount — get the precise <span style="font-family:var(--mono)">baw</span> command with correctly encoded calldata. Copy it to your agent. This page never asks you to connect or sign anything.</p>
+  <label>Action</label>
+  <div class="row" style="margin-top:6px">
+    <button class="btn ghost act on" data-act="join" style="flex:1">Join (free)</button>
+    <button class="btn ghost act" data-act="pay" style="flex:1">Pay</button>
+    <button class="btn ghost act" data-act="escrow" style="flex:1">Escrow</button>
+    <button class="btn ghost act" data-act="invoice" style="flex:1">Invoice</button>
+  </div>
+  <div id="fldFrom">
+    <label>Your agent wallet (from)</label>
+    <input id="bFrom" placeholder="0x… your BAW wallet address" maxlength="42" autocapitalize="off" spellcheck="false">
+  </div>
+  <div id="fldHandle" style="display:none">
     <label>To handle</label>
-    <div class="handle-in"><input id="payHandle" placeholder="alice" maxlength="32" autocapitalize="off" spellcheck="false"></div>
-    <div class="resolve-box" id="payResolve"></div>
+    <input id="bHandle" placeholder="alice" maxlength="32" autocapitalize="off" spellcheck="false">
+  </div>
+  <div id="fldAmount" style="display:none">
     <label>Amount (BNB)</label>
-    <input id="payAmount" placeholder="0.001" inputmode="decimal">
+    <input id="bAmount" placeholder="0.001" inputmode="decimal">
+  </div>
+  <div id="fldMemo" style="display:none">
     <label>Memo (optional)</label>
-    <input id="payMemo" placeholder="invoice #, thank-you, task id…" maxlength="64">
-    <div class="row"><button class="btn" id="payBtn">Send</button></div>
-    <p class="notice">Funds are forwarded to the wallet currently holding the handle, straight from your wallet in the same transaction. Double-check the handle — Agent IDs are permanent.</p>
+    <input id="bMemo" placeholder="task id, thank-you…" maxlength="64">
   </div>
+  <label>Ready-to-run command</label>
+  <pre id="cmdOut">Select an action above…</pre>
+  <div class="row"><button class="btn" id="copyCmd">Copy command</button></div>
+  <p class="notice" id="cmdNote"></p>
 </div>
 
-<div id="tab-escrow" class="tabc" style="display:none">
-  <div class="card">
-    <label>Lock BNB to handle</label>
-    <div class="handle-in"><input id="escHandle" placeholder="alice" maxlength="32" autocapitalize="off" spellcheck="false"></div>
-    <div class="resolve-box" id="escResolve"></div>
-    <label>Amount (BNB)</label>
-    <input id="escAmount" placeholder="0.01" inputmode="decimal">
-    <div class="row"><button class="btn" id="lockBtn">Lock escrow</button></div>
-    <p class="notice">Funds stay in the contract, earmarked to the handle. Only the wallet the registry resolves that handle to can claim them — because Agent IDs are non-transferable (soulbound), that right can't be sold or stolen. The holder claims from this page with one click.</p>
+<div class="card">
+  <h2>📡 Live on-chain directory <span class="tag">read-only</span></h2>
+  <div class="stat">
+    <div><div class="k">Agent ID holders joined</div><div class="v" id="dirCount">–</div></div>
+    <div><div class="k">Total paid (recent)</div><div class="v" id="escTotal">– <small>BNB</small></div></div>
   </div>
-  <div class="card" id="myEscrowCard" style="display:none">
-    <div class="stat">
-      <div><div class="k">Claimable by you</div><div class="v" id="myEscrow">–</div></div>
-      <div><div class="k">Your handle</div><div class="v" id="myHandle">–</div></div>
-    </div>
-    <div class="row"><button class="btn ghost" id="claimBtn">Claim</button></div>
-  </div>
+  <label>Latest payments (on-chain events)</label>
+  <table id="paidTable"><thead><tr><th>Handle</th><th>Amount</th><th>Memo</th><th>When</th></tr></thead><tbody><tr><td colspan="4" class="muted">loading…</td></tr></tbody></table>
+  <p class="notice">Read straight from BNB Chain — no server, no database. Anyone can verify these events on the <a href="https://bscscan.com/address/0xebfb41e4843734efe489587bee11b34a510fd001#events" target="_blank" rel="noopener">contract's BscScan page ↗</a>.</p>
 </div>
 
-<div id="tab-invoice" class="tabc" style="display:none">
-  <div class="card">
-    <label>Create invoice (from your handle)</label>
-    <label style="margin-top:4px">Amount (BNB)</label>
-    <input id="invAmount" placeholder="0.05" inputmode="decimal">
-    <label>Memo</label>
-    <input id="invMemo" placeholder="scrape job #42" maxlength="64">
-    <div class="row"><button class="btn" id="createInvBtn">Create invoice</button></div>
-  </div>
-  <div class="card">
-    <label>Pay invoice by ID</label>
-    <input id="payInvId" placeholder="invoice id (number)" inputmode="numeric">
-    <div class="resolve-box" id="invResolve"></div>
-    <div class="row"><button class="btn" id="payInvBtn">Pay invoice</button></div>
-    <p class="notice">Payment is forwarded to whoever the payee handle resolves to at payment time. Overpayment is refunded to you inside the same transaction.</p>
-  </div>
-</div>
-
-<div id="tab-board" class="tabc" style="display:none">
-  <div class="card">
-    <div class="stat">
-      <div><div class="k">Agent ID holders in directory</div><div class="v" id="dirCount">–</div></div>
-      <div><div class="k">Total escrow locked</div><div class="v" id="escTotal">– <small>BNB</small></div></div>
-    </div>
-  </div>
-  <div class="card">
-    <label>Latest payments (on-chain events)</label>
-    <table id="paidTable"><thead><tr><th>Handle</th><th>Amount</th><th>Memo</th><th>When</th></tr></thead><tbody><tr><td colspan="4" class="muted">loading…</td></tr></tbody></table>
-  </div>
+<div class="card">
+  <h2>How it works</h2>
+  <ol class="steps">
+    <li><b>Your Agent ID is your account.</b> Handles like <span style="font-family:var(--mono)">alice.ai</span> are soulbound NFTs in the official SPACE ID Agent ID registry.</li>
+    <li><b>Every payment resolves on-chain.</b> <span style="font-family:var(--mono)">pay(handle)</span> looks up the current owner via <span style="font-family:var(--mono)">ownerOfHandle()</span> and forwards BNB in the same transaction — no address book.</li>
+    <li><b>Escrow is claimable only by the handle's owner</b> via <span style="font-family:var(--mono)">handleOf()</span>. Because Agent IDs are non-transferable, that right can't be sold or stolen.</li>
+    <li><b>Agent-native.</b> Your AI agent signs with Binance Agentic Wallet (BAW). This website is a read-only dashboard + command builder — it never holds keys or asks for approvals.</li>
+  </ol>
 </div>
 
 <footer>
@@ -166,149 +167,88 @@ footer{margin-top:40px;color:var(--dim);font-size:12px;text-align:center;line-he
   · <a href="https://bscscan.com/address/0xebfb41e4843734efe489587bee11b34a510fd001#code" target="_blank" rel="noopener">Verified source ↗</a>
   · <a href="https://github.com/riyan3110/agentpay" target="_blank" rel="noopener">Open source ↗</a><br>
   Agent ID registry: <span style="font-family:var(--mono)">0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F</span><br>
-  <span class="muted">No admin keys · no fees · no approvals. Digital assets are volatile — verify the handle and contract before sending.</span>
+  <span class="muted">No admin keys · no fees · no approvals · no wallet connect. Digital assets are volatile — verify the handle and contract before sending.</span>
 </footer>
 </div>
 <div id="toast"></div>
 
 <script>
-const REGISTRY='0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F';
 const AGENTPAY='0xebfB41E4843734EfE489587bEE11B34a510fd001';
-const REG_ABI=[
- 'function ownerOfHandle(string) view returns (address)',
- 'function handleOf(address) view returns (string)',
- 'function balanceOf(address) view returns (uint256)'];
-const PAY_ABI=[
- 'function pay(string,string) payable',
- 'function lockEscrow(string) payable',
- 'function claimEscrow()',
- 'function createInvoice(uint256,string) returns (uint256)',
- 'function payInvoice(uint256,string) payable',
- 'function resolve(string) view returns (address)',
- 'function escrowOf(string) view returns (uint256)',
+const $=id=>document.getElementById(id);
+const _fc=$('ftContract'); if(_fc) _fc.textContent=AGENTPAY.slice(0,6)+'…'+AGENTPAY.slice(-4);
+const toast=(m,ms=2600)=>{const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',ms)};
+
+const IFACE=new ethers.Interface([
+ 'function join()',
+ 'function pay(string handle,string memo) payable',
+ 'function lockEscrow(string handle) payable',
+ 'function createInvoice(uint256 amount,string memo) returns (uint256)',
+ 'function payInvoice(uint256 id,string memo) payable',
  'function holderCount() view returns (uint256)',
  'function nextInvoiceId() view returns (uint256)',
- 'event Paid(string indexed handle,address indexed from,address indexed to,uint256 amount,string memo)'];
-const F='0xebfB41E4843734EfE489587bEE11B34a510fd001';
-const _fc=document.getElementById('ftContract'); if(_fc) _fc.textContent = F.slice(0,6)+'…'+F.slice(-4);
-const $=id=>document.getElementById(id);
-let provider,signer,me,reg,payc;
-const fmt=n=>ethers.formatEther(n);
-const toast=(m,ms=3800)=>{const t=$('toast');t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',ms)};
+ 'event Paid(string indexed handle,address indexed from,address indexed to,uint256 amount,string memo)'
+]);
+const SEL={join:IFACE.getFunction('join').selector};
 
-async function connect(){
-  if(!window.ethereum){toast('Open this page in the Binance Wallet dApp browser, or install a wallet');return}
-  provider=new ethers.BrowserProvider(window.ethereum);
-  await provider.send('eth_requestAccounts',[]);
-  signer=await provider.getSigner(); me=await signer.getAddress();
-  reg=new ethers.Contract(REGISTRY,REG_ABI,provider);
-  payc=new ethers.Contract(AGENTPAY,PAY_ABI,signer);
-  const handle=await reg.handleOf(me).catch(()=> '');
-  const has=await reg.balanceOf(me);
-  $('meRow').style.display='flex';
-  $('meTxt').innerHTML=`Connected <b style="font-family:var(--mono)">${me.slice(0,6)}…${me.slice(-4)}</b>`+
-    (handle?` · Agent ID: <b style="color:var(--gold)">${handle}</b>`:(has>0n?' · Agent ID holder':' · <span class="muted">no Agent ID (can receive, some actions need one)</span>'));
-  $('connectBtn').textContent=me.slice(0,6)+'…'+me.slice(-4);
-  if(handle){$('myHandle').textContent=handle;await refreshMyEscrow()}
+let act='join';
+const flds={join:[],pay:['fldHandle','fldAmount','fldMemo'],escrow:['fldHandle','fldAmount'],invoice:['fldAmount','fldMemo']};
+function buildCmd(){
+ const h=($('bHandle').value||'').trim().toLowerCase();
+ const amt=($('bAmount').value||'').trim();
+ const memo=($('bMemo').value||'').trim();
+ let data='0x',value='0',note='',fn='';
+ try{
+  if(act==='join'){data=SEL.join;fn='join()';note='Free to join — gas only, zero value, zero approvals. Registers your Agent ID in the directory.';}
+  else if(act==='pay'){
+    if(!h){$('cmdOut').textContent='Enter a handle (e.g. alice)';$('cmdNote').textContent='';return;}
+    const wei=ethers.parseEther(amt||'0');data=IFACE.encodeFunctionData('pay',[h,memo]);value=wei.toString();fn='pay(handle,memo)';
+    note='Sends '+(amt||'0')+' BNB to whoever owns '+h+'.ai right now (resolved on-chain). --value is in wei.';
+  }else if(act==='escrow'){
+    if(!h){$('cmdOut').textContent='Enter a handle (e.g. alice)';$('cmdNote').textContent='';return;}
+    const wei=ethers.parseEther(amt||'0');data=IFACE.encodeFunctionData('lockEscrow',[h]);value=wei.toString();fn='lockEscrow(handle)';
+    note='Locks '+(amt||'0')+' BNB, claimable only by the owner of '+h+'.ai.';
+  }else if(act==='invoice'){
+    const wei=ethers.parseEther(amt||'0');data=IFACE.encodeFunctionData('createInvoice',[wei,memo]);value='0';fn='createInvoice(amount,memo)';
+    note='Creates an invoice for '+(amt||'0')+' BNB from your handle. The id is in the InvoiceCreated event.';
+  }
+  const from=($('bFrom').value||'').trim()||'<YOUR_AGENT_WALLET>';
+  const cmd='baw contract-call preview --binanceChainId 56 \\\n  --from '+from+' \\\n  --to '+AGENTPAY+' \\\n  --value '+value+' \\\n  --inputData '+data+' --json\n\n# verify simulationCode=="000000000", allowanceChanges==[], authorityChanges==[], no RISK\n# then:\nbaw contract-call execute --requestId <REQUEST_ID> --json';
+  $('cmdOut').textContent=cmd;
+  $('cmdNote').textContent=fn+' · '+note;
+ }catch(e){$('cmdOut').textContent='Invalid amount: '+e.message;$('cmdNote').textContent='';}
 }
-async function resolvePreview(handle,box){
-  if(!handle){box.style.display='none';return null}
-  box.style.display='block';box.className='resolve-box';
-  try{
-    const rpc=provider||new ethers.JsonRpcProvider('https://bsc-dataseed.binance.org');
-    const c=provider?reg:new ethers.Contract(REGISTRY,REG_ABI,rpc);
-    const owner=await c.ownerOfHandle(handle.toLowerCase());
-    if(owner===ethers.ZeroAddress){box.className='resolve-box err';box.textContent=`✗ "${handle}" is not registered`;return null}
-    box.className='resolve-box ok';box.textContent=`✓ ${handle} → ${owner}`;
-    return owner;
-  }catch(e){box.className='resolve-box err';box.textContent='lookup failed: '+e.shortMessage;return null}
+function setAct(a){
+ act=a;
+ document.querySelectorAll('.act').forEach(b=>b.classList.toggle('on',b.dataset.act===a));
+ ['fldHandle','fldAmount','fldMemo'].forEach(f=>$(f).style.display=flds[a].includes(f)?'block':'none');
+ buildCmd();
 }
-['payHandle','escHandle'].forEach(id=>$(id).addEventListener('input',e=>resolvePreview(e.target.value.trim().toLowerCase(),$(id==='payHandle'?'payResolve':'escResolve'))));
-$('payInvId').addEventListener('input',async e=>{
-  const box=$('invResolve');
-  if(!e.target.value.trim()){box.style.display='none';return}
-  try{
-    const rpc=provider||new ethers.JsonRpcProvider('https://bsc-dataseed.binance.org');
-    const c=new ethers.Contract(AGENTPAY,[...PAY_ABI,'function invoices(uint256) view returns (string handle,uint256 amount,bool paid,string memo,uint256 createdAt)'],rpc);
-    const inv=await c.invoices(e.target.value.trim());
-    if(inv.amount===0n){box.style.display='block';box.className='resolve-box err';box.textContent='✗ invoice not found';return}
-    box.style.display='block';box.className='resolve-box ok';
-    box.textContent=`#${e.target.value.trim()} → ${inv.handle} · ${fmt(inv.amount)} BNB · ${inv.paid?'PAID':'open'}${inv.memo?' · '+inv.memo:''}`;
-  }catch(err){box.style.display='block';box.className='resolve-box err';box.textContent='lookup failed'}
-});
-function need(){if(!signer){toast('Connect wallet first');return false}return true}
-const parseAmt=v=>ethers.parseEther(v||'0');
-$('payBtn').onclick=async()=>{
-  if(!need())return;
-  const h=$('payHandle').value.trim().toLowerCase(),amt=$('payAmount').value.trim();
-  if(!await resolvePreview(h,$('payResolve')))return;
-  if(!(parseFloat(amt)>0))return toast('Enter an amount');
-  try{toast('Confirm in your wallet…');
-    const tx=await payc.pay(h,$('payMemo').value.trim(),{value:parseAmt(amt)});
-    toast('Sent! waiting for confirmation…');await tx.wait();toast('✓ Paid '+h+' '+amt+' BNB');
-  }catch(e){toast('Failed: '+(e.shortMessage||e.message))}
-};
-$('lockBtn').onclick=async()=>{
-  if(!need())return;
-  const h=$('escHandle').value.trim().toLowerCase(),amt=$('escAmount').value.trim();
-  if(!await resolvePreview(h,$('escResolve')))return;
-  if(!(parseFloat(amt)>0))return toast('Enter an amount');
-  try{toast('Confirm in your wallet…');
-    const tx=await payc.lockEscrow(h,{value:parseAmt(amt)});await tx.wait();toast('✓ Escrow locked for '+h);
-  }catch(e){toast('Failed: '+(e.shortMessage||e.message))}
-};
-async function refreshMyEscrow(){
-  if(!me||!$('myHandle').textContent)return;
-  const amt=await payc.escrowOf($('myHandle').textContent);
-  $('myEscrowCard').style.display='block';
-  $('myEscrow').textContent=fmt(amt)+' BNB';
-  $('claimBtn').disabled=amt===0n;
+document.querySelectorAll('.act').forEach(b=>b.onclick=()=>setAct(b.dataset.act));
+['bHandle','bAmount','bMemo','bFrom'].forEach(id=>$(id).addEventListener('input',buildCmd));
+
+async function copyText(txt){
+ try{await navigator.clipboard.writeText(txt);toast('✓ Copied to clipboard');}
+ catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast('✓ Copied');}catch(_){toast('Copy failed — select the text manually');}ta.remove();}
 }
-$('claimBtn').onclick=async()=>{
-  if(!need())return;
-  try{const tx=await payc.claimEscrow();await tx.wait();toast('✓ Escrow claimed');refreshMyEscrow()}catch(e){toast('Failed: '+(e.shortMessage||e.message))}
-};
-$('createInvBtn').onclick=async()=>{
-  if(!need())return;
-  const amt=$('invAmount').value.trim();if(!(parseFloat(amt)>0))return toast('Enter an amount');
-  try{toast('Confirm in your wallet…');
-    const tx=await payc.createInvoice(parseAmt(amt),$('invMemo').value.trim());
-    const rc=await tx.wait();
-    const ev=rc.logs.map(l=>{try{return payc.interface.parseLog(l)}catch{return null}}).find(x=>x&&x.name==='InvoiceCreated');
-    toast('✓ Invoice #'+ev.args.id+' created — share the ID');$('payInvId').value=ev.args.id;$('payInvId').dispatchEvent(new Event('input'));
-  }catch(e){toast('Failed: '+(e.shortMessage||e.message))}
-};
-$('payInvBtn').onclick=async()=>{
-  if(!need())return;
-  const id=$('payInvId').value.trim();if(!id)return toast('Enter invoice id');
-  try{toast('Confirm in your wallet…');
-    const rpc=provider;const read=new ethers.Contract(AGENTPAY,[...PAY_ABI,'function invoices(uint256) view returns (string,uint256,bool,string,uint256)'],rpc);
-    const inv=await read.invoices(id);
-    const tx=await payc.payInvoice(id,$('payMemo')?.value||'',{value:inv.amount});await tx.wait();toast('✓ Invoice #'+id+' paid');
-  }catch(e){toast('Failed: '+(e.shortMessage||e.message))}
-};
+$('copyPrompt').onclick=()=>copyText($('promptText').textContent);
+$('copyCmd').onclick=()=>copyText($('cmdOut').textContent);
+
 async function loadBoard(){
-  try{
-    const rpc=provider||new ethers.JsonRpcProvider('https://bsc-dataseed.binance.org');
-    const c=new ethers.Contract(AGENTPAY,PAY_ABI,rpc);
-    const [hc,ni]=await Promise.all([c.holderCount(),c.nextInvoiceId()]);
-    $('dirCount').textContent=hc.toString();
-    const block=await rpc.getBlockNumber();
-    const evs=await c.queryFilter(c.filters.Paid(),Math.max(0,block-45000),block);
-    const rows=evs.slice(-25).reverse().map(e=>{const a=e.args;
-      return `<tr><td><span class="h">${a.handle}</span></td><td>${fmt(a.amount)}</td><td>${a.memo?String(a.memo).slice(0,24):'<span class="muted">–</span>'}</td><td class="muted">blk ${e.blockNumber}</td></tr>`});
-    $('paidTable').querySelector('tbody').innerHTML=rows.length?rows.join(''):'<tr><td colspan="4" class="muted">no payments yet — be the first</td></tr>';
-    const et=evs.reduce((s,e)=>s+e.args.amount,0n);
-    $('escTotal').textContent=fmt(et)+' <small>BNB</small>'.replace(/<small>/,'');
-    $('escTotal').innerHTML=fmt(et)+' <small>BNB</small>';
-  }catch(e){$('paidTable').querySelector('tbody').innerHTML='<tr><td colspan="4" class="muted">failed to load events</td></tr>'}
+ try{
+  const rpc=new ethers.JsonRpcProvider('https://bsc-dataseed.binance.org');
+  const c=new ethers.Contract(AGENTPAY,IFACE,rpc);
+  const hc=await c.holderCount();
+  $('dirCount').textContent=hc.toString();
+  const block=await rpc.getBlockNumber();
+  const evs=await c.queryFilter(c.filters.Paid(),Math.max(0,block-45000),block);
+  const rows=evs.slice(-25).reverse().map(e=>{const a=e.args;
+   return '<tr><td><span class="h">'+a.handle+'</span></td><td>'+ethers.formatEther(a.amount)+'</td><td>'+(a.memo?String(a.memo).slice(0,24):'<span class="muted">–</span>')+'</td><td class="muted">blk '+e.blockNumber+'</td></tr>';});
+  $('paidTable').querySelector('tbody').innerHTML=rows.length?rows.join(''):'<tr><td colspan="4" class="muted">no payments yet — be the first</td></tr>';
+  const et=evs.reduce((s,e)=>s+e.args.amount,0n);
+  $('escTotal').innerHTML=ethers.formatEther(et)+' <small>BNB</small>';
+ }catch(e){$('paidTable').querySelector('tbody').innerHTML='<tr><td colspan="4" class="muted">failed to load events — retry shortly</td></tr>';}
 }
-document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));t.classList.add('on');
-  document.querySelectorAll('.tabc').forEach(x=>x.style.display='none');
-  $('tab-'+t.dataset.tab).style.display='block';
-});
-$('connectBtn').onclick=connect;
+setAct('join');
 loadBoard();
 </script>
 </body>
